@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề Cương Ôn Tập Giữa HK II - Địa Lí 12</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --red:#c0392b;--blue:#1a3a6b;--gold:#f0a500;--green:#27ae60;--light:#f8f9fa;
+    --dark:#1c1c2e;--card:#ffffff;--border:#dee2e6;--shadow:0 2px 12px rgba(0,0,0,0.1);
+  }
+  body{font-family:'Be Vietnam Pro',sans-serif;background:#eef2f7;color:#222;min-height:100vh}
+  
+  /* HEADER */
+  .header{background:linear-gradient(135deg,var(--blue) 0%,#2c5282 100%);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.3)}
+  .header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .exam-title{font-size:13px;opacity:0.85;letter-spacing:0.5px}
+  .timer-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:30px}
+  .timer-icon{font-size:18px}
+  #timer{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:2px}
+  #timer.warning{color:#f39c12;animation:pulse 1s infinite}
+  #timer.danger{color:#e74c3c;animation:pulse 0.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+  .header-sub{margin-top:6px;text-align:center;font-size:11px;opacity:0.7}
+  
+  /* SCORE BAR */
+  .score-bar{display:flex;gap:12px;justify-content:center;background:#fff;border-bottom:2px solid var(--border);padding:10px 16px;flex-wrap:wrap;font-size:13px}
+  .score-item{display:flex;align-items:center;gap:6px;font-weight:600}
+  .dot{width:10px;height:10px;border-radius:50%}
+  
+  /* SECTIONS */
+  .section{margin:16px 12px;background:#fff;border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+  .section-header{background:var(--blue);color:#fff;padding:12px 16px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+  .section-header.red{background:var(--red)}
+  .section-header.green{background:#155724}
+  
+  /* QUESTION */
+  .question-block{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+  .question-block:last-child{border-bottom:none}
+  .q-number{color:var(--red);font-weight:700;font-size:14px}
+  .q-text{font-size:14px;line-height:1.6;margin:4px 0 10px}
+  .q-text strong{font-weight:700}
+  
+  /* OPTIONS */
+  .options{display:flex;flex-direction:column;gap:6px}
+  .option{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:13.5px;line-height:1.5;user-select:none}
+  .option:hover{border-color:var(--blue);background:#f0f4ff}
+  .option.selected{border-color:var(--blue);background:#dbeafe}
+  .option.correct{border-color:var(--green);background:#d4edda;color:#155724}
+  .option.wrong{border-color:var(--red);background:#f8d7da;color:#721c24}
+  .option.show-correct{border-color:var(--green);background:#d4edda;color:#155724}
+  .opt-label{font-weight:700;min-width:20px;color:var(--blue)}
+  .option.correct .opt-label,.option.show-correct .opt-label{color:#155724}
+  .option.wrong .opt-label{color:#721c24}
+  
+  /* TRUE/FALSE */
+  .tf-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .tf-sub{font-size:13px;font-style:italic;margin:6px 0 4px;color:#444;line-height:1.5}
+  .tf-btn{display:flex;gap:6px}
+  .tf-btn button{padding:6px 16px;border:1.5px solid var(--border);border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;background:#fff;transition:all 0.2s}
+  .tf-btn button.sel-true{background:#d4edda;border-color:var(--green);color:#155724}
+  .tf-btn button.sel-false{background:#f8d7da;border-color:var(--red);color:#721c24}
+  .tf-btn button.correct-true{background:#d4edda!important;border-color:var(--green)!important;color:#155724!important}
+  .tf-btn button.wrong-true{background:#f8d7da!important;border-color:var(--red)!important;color:#721c24!important}
+  
+  /* SHORT ANSWER */
+  .short-ans{margin-top:8px}
+  .short-ans input{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
+  .short-ans input:focus{border-color:var(--blue)}
+  .short-ans input.correct{border-color:var(--green);background:#d4edda}
+  .short-ans input.wrong{border-color:var(--red);background:#f8d7da}
+  
+  /* INFO TEXT */
+  .info-text{background:#f8f9fa;border-left:4px solid var(--blue);padding:10px 14px;margin:8px 0;font-size:13px;line-height:1.6;border-radius:0 6px 6px 0}
+  
+  /* TABLE */
+  .data-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+  .data-table th{background:var(--blue);color:#fff;padding:8px;text-align:center;font-weight:600}
+  .data-table td{border:1px solid #ccc;padding:7px 10px;text-align:center}
+  .data-table tr:nth-child(even) td{background:#f8f9fa}
+  .table-title{font-weight:700;text-align:center;font-size:13px;margin:8px 0 4px}
+  .table-note{font-size:12px;font-style:italic;text-align:center;color:#666;margin-bottom:4px}
+  
+  /* CHART */
+  .chart-container{margin:10px 0;border:1px solid #ddd;border-radius:8px;overflow:hidden;background:#fff}
+  .chart-title{text-align:center;font-weight:700;font-size:12px;padding:8px;background:#f0f0f0;line-height:1.4}
+  .bar-chart{padding:10px 16px 16px;position:relative}
+  .chart-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:6px 0;font-size:11px}
+  .legend-item{display:flex;align-items:center;gap:4px}
+  .legend-color{width:14px;height:14px;border-radius:2px}
+  .bars-area{display:flex;align-items:flex-end;gap:8px;height:160px;border-bottom:2px solid #333;border-left:2px solid #333;padding:0 8px;position:relative;margin-top:8px}
+  .bar-group{display:flex;gap:2px;align-items:flex-end;flex-direction:column;justify-content:flex-end;flex:1;position:relative}
+  .bar-group-inner{display:flex;gap:2px;align-items:flex-end;width:100%}
+  .bar{min-width:16px;border-radius:2px 2px 0 0;position:relative;cursor:default;transition:opacity 0.2s}
+  .bar:hover{opacity:0.8}
+  .bar-label{text-align:center;font-size:10px;margin-top:4px;color:#555;white-space:nowrap}
+  .bar-value{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;white-space:nowrap}
+  .y-axis{position:absolute;left:-28px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;color:#666;text-align:right;width:26px}
+  .line-container{position:relative}
+  
+  /* SUBMIT */
+  .submit-area{padding:20px;text-align:center}
+  .btn-submit{background:linear-gradient(135deg,var(--red),#e74c3c);color:#fff;border:none;padding:14px 40px;font-size:16px;font-weight:700;border-radius:30px;cursor:pointer;font-family:inherit;box-shadow:0 4px 15px rgba(192,57,43,0.4);transition:all 0.2s;letter-spacing:0.5px}
+  .btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(192,57,43,0.5)}
+  .btn-retry{background:linear-gradient(135deg,var(--blue),#2c5282);color:#fff;border:none;padding:12px 32px;font-size:15px;font-weight:700;border-radius:30px;cursor:pointer;font-family:inherit;margin-top:12px;transition:all 0.2s}
+  .btn-retry:hover{transform:translateY(-2px)}
+  
+  /* RESULT */
+  .result-panel{background:#fff;margin:16px 12px;border-radius:12px;box-shadow:var(--shadow);padding:20px;text-align:center}
+  .result-score{font-size:48px;font-weight:700;color:var(--blue)}
+  .result-label{font-size:16px;color:#666;margin:6px 0}
+  .result-breakdown{display:flex;justify-content:center;gap:20px;margin:16px 0;flex-wrap:wrap}
+  .rb-item{text-align:center}
+  .rb-num{font-size:24px;font-weight:700}
+  .rb-txt{font-size:12px;color:#666}
+  
+  /* REVIEW */
+  .review-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin-left:8px}
+  .badge-correct{background:#d4edda;color:#155724}
+  .badge-wrong{background:#f8d7da;color:#721c24}
+  .badge-skip{background:#fff3cd;color:#856404}
+  .answer-key{margin-top:6px;padding:6px 10px;background:#e8f4f8;border-radius:6px;font-size:12px;color:#1a3a6b}
+  
+  /* PROGRESS */
+  .progress-wrap{padding:4px 16px}
+  .progress-bar{background:#e9ecef;border-radius:10px;height:6px;overflow:hidden;margin-top:4px}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),#e67e22);border-radius:10px;transition:width 0.3s}
+  .progress-text{font-size:11px;color:#fff;opacity:0.8}
+  
+  .hidden{display:none}
+  .source-note{font-size:11px;font-style:italic;color:#888;margin:4px 0 8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div style="font-size:16px;font-weight:700">ĐỊA LÍ 12 — GIỮA HK II</div>
+      <div class="exam-title">Năm học 2025 – 2026</div>
+    </div>
+    <div class="timer-wrap">
+      <span class="timer-icon">⏱</span>
+      <span id="timer">60:00</span>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-text" id="progress-text">Đã trả lời: 0 / 90 câu</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div id="exam-body">
+
+<!-- ===== PHẦN I ===== -->
+<div class="section">
+  <div class="section-header">📝 PHẦN I: Trắc nghiệm nhiều lựa chọn <span style="font-weight:400;font-size:12px;margin-left:8px">(Mỗi câu chọn 1 phương án đúng)</span></div>
+  <div id="part1-questions"></div>
+</div>
+
+<!-- ===== PHẦN II ===== -->
+<div class="section">
+  <div class="section-header red">✅ PHẦN II: Trắc nghiệm đúng sai <span style="font-weight:400;font-size:12px;margin-left:8px">(Mỗi ý a, b, c, d chọn Đúng hoặc Sai)</span></div>
+  <div id="part2-questions"></div>
+</div>
+
+<!-- ===== PHẦN III ===== -->
+<div class="section">
+  <div class="section-header green">🔢 PHẦN III: Trắc nghiệm trả lời ngắn</div>
+  <div id="part3-questions"></div>
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" onclick="submitExam()">📤 NỘP BÀI</button>
+</div>
+
+</div><!-- end exam-body -->
+
+<div id="result-area" class="hidden">
+  <div class="result-panel">
+    <div style="font-size:28px;margin-bottom:8px">🎓</div>
+    <div class="result-score" id="result-score">8.5</div>
+    <div class="result-label">điểm / 10</div>
+    <div class="result-breakdown">
+      <div class="rb-item"><div class="rb-num" id="rb-correct" style="color:var(--green)">0</div><div class="rb-txt">Đúng</div></div>
+      <div class="rb-item"><div class="rb-num" id="rb-wrong" style="color:var(--red)">0</div><div class="rb-txt">Sai</div></div>
+      <div class="rb-item"><div class="rb-num" id="rb-skip" style="color:#f39c12">0</div><div class="rb-txt">Bỏ qua</div></div>
+    </div>
+    <button class="btn-retry" onclick="retryExam()">🔄 Làm lại (câu hỏi xáo trộn)</button>
+  </div>
+
+  <div class="section">
+    <div class="section-header">📋 Chi tiết đáp án</div>
+    <div id="review-area"></div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+
+const part1Data = [
+  {q:"Cơ cấu công nghiệp theo ngành ở nước ta hiện nay <strong>không</strong> chuyển dịch theo hướng nào?", opts:["Phụ thuộc lớn hơn vào tài nguyên.","Tiếp cận những công nghệ tiên tiến.","Hội nhập với khu vực và quốc tế.","Gia tăng tỉ lệ nội địa hoá sản phẩm."], ans:"A"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng với cơ cấu công nghiệp theo thành phần kinh tế nước ta hiện nay?", opts:["Tỉ trọng khu vực đầu tư nước ngoài tăng.","Chuyển dịch theo hướng kinh tế thị trường.","Chuyển dịch phù hợp với nền kinh tế mở.","Kinh tế Nhà nước chiếm tỉ trọng lớn nhất."], ans:"D"},
+  {q:"Công nghiệp ở vùng núi nước ta phát triển", opts:["còn chậm.","rất đa dạng.","tập trung cao.","rất nhanh."], ans:"A"},
+  {q:"Khí tự nhiên ở nước ta được dùng làm nguyên liệu chủ yếu cho ngành", opts:["sản xuất giấy.","luyện kim đen.","luyện kim màu.","sản xuất phân đạm."], ans:"D"},
+  {q:"Hiện nay, phần lớn sản lượng điện của nước ta là từ", opts:["điện gió và điện hạt nhân.","điện mặt trời và điện khí.","nhiệt điện than và điện gió.","thuỷ điện và nhiệt điện."], ans:"D"},
+  {q:"Biện pháp để nâng cao chất lượng sản phẩm công nghiệp nước ta hiện nay là", opts:["đẩy mạnh khai thác.","đổi mới công nghệ.","tìm thị trường mới.","tăng thêm lao động."], ans:"B"},
+  {q:"Cơ cấu ngành công nghiệp nước ta có sự chuyển dịch rõ rệt nhằm mục tiêu chủ yếu nào sau đây?", opts:["Thúc đẩy tăng trưởng kinh tế và bảo vệ môi trường.","Tạo thuận lợi cho việc chuyển dịch cơ cấu lao động.","Tạo điều kiện để hội nhập vào thị trường thế giới.","Khai thác hợp lí các nguồn tài nguyên thiên nhiên."], ans:"C"},
+  {q:"Tiềm năng thuỷ điện lớn nhất của nước ta thuộc hệ thống", opts:["sông Cửu Long.","sông Hồng.","sông Mã.","sông Sê San."], ans:"B"},
+  {q:"Các cơ sở công nghiệp chế biến thuỷ sản nước ta tập trung chủ yếu tại", opts:["đô thị đông dân cư.","các vùng nguyên liệu.","nơi có lao động đông.","đầu mối giao thông lớn."], ans:"B"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng với công nghiệp sản xuất sản phẩm điện tử, máy vi tính của nước ta hiện nay?", opts:["Phát huy được các lợi thế về trình độ lao động.","Thu hút được nhiều dự án đầu tư nước ngoài.","Phát huy lợi thế về nguồn nguyên liệu tại chỗ.","Nhận được các chính sách ưu tiên phát triển."], ans:"C"},
+  {q:"Ngành công nghiệp nào sau đây đứng đầu trong cơ cấu giá trị sản xuất công nghiệp nước ta hiện nay?", opts:["Công nghiệp sản xuất điện.","Công nghiệp sản xuất, chế biến thực phẩm.","Công nghiệp dệt, may và giày, dép.","Công nghiệp sản xuất sản phẩm điện tử, máy vi tính."], ans:"B"},
+  {q:"Công nghiệp dệt, may và giày, dép nước ta hiện nay", opts:["đã tạo dựng được các thương hiệu uy tín.","sử dụng chủ yếu nguồn nguyên liệu tại chỗ.","chỉ phục vụ nhu cầu thị trường xuất khẩu.","mới được hình thành trong thời kỳ đổi mới."], ans:"A"},
+  {q:"Phát biểu nào sau đây đúng với đặc điểm khu công nghiệp ở nước ta?", opts:["Chuyên sản xuất hàng xuất khẩu.","Đồng nhất với điểm dân cư.","Do UBND phường thành lập.","Có ranh giới địa lí xác định."], ans:"D"},
+  {q:"Hình thức tổ chức lãnh thổ nào sau đây không được xem tương đương với một khu công nghiệp?", opts:["Khu kinh tế mở.","Khu công nghiệp tập trung.","Khu chế xuất.","Khu công nghệ cao."], ans:"A"},
+  {q:"Khu công nghệ cao đầu tiên được thành lập ở nước ta là", opts:["Khu công nghệ cao Hoà Lạc.","Khu công nghệ cao Đà Nẵng.","Khu công nghệ cao công nghệ sinh học Đồng Nai.","Khu công nghệ cao Thành phố Hồ Chí Minh."], ans:"D"},
+  {q:"Trong lĩnh vực xã hội, khu công nghiệp có vai trò", opts:["Thúc đẩy chuyển giao công nghệ hiện đại.","Thu hút vốn đầu tư trong và ngoài nước.","Tạo việc làm cho người lao động.","Chuyển dịch cơ cấu ngành kinh tế."], ans:"C"},
+  {q:"Đặc điểm nào sau đây đúng với mạng lưới giao thông đường bộ ở nước ta hiện nay?", opts:["Chưa hình thành được các đầu mối giao thông quan trọng ở hai miền Bắc – Nam.","Các tuyến đường Đông - Tây là trục giao thông chính ở nước ta.","Đường Hồ Chí Minh có ý nghĩa thúc đẩy kinh tế – xã hội ở phía đông nước ta.","Đã phủ kín cả nước và hình thành các trục đường xuyên quốc gia."], ans:"D"},
+  {q:"Tuyến đường xương sống của hệ thống giao thông đường bộ ở nước ta là", opts:["quốc lộ 14.","đường Hồ Chí Minh.","Quốc lộ 18.","quốc lộ 1."], ans:"D"},
+  {q:"Ở nước ta hiện nay, cảng biển quan trọng nhất miền Bắc là", opts:["cảng Thuận An.","cảng Vân Đồn.","cảng Cái Lân.","cảng Hải Phòng."], ans:"D"},
+  {q:"Ngành vận tải hàng không ở nước ta hiện nay", opts:["chủ yếu là vận chuyển hành khách.","hoàn toàn là đường bay nội địa.","có khối lượng vận chuyển lớn nhất.","phân bố đồng đều trên cả nước."], ans:"A"},
+  {q:"Loại hình GTVT có khối lượng luân chuyển hàng hóa lớn nhất ở nước ta hiện nay là", opts:["đường sắt.","đường biển.","đường bộ.","đường hàng không."], ans:"B"},
+  {q:"Ở nước ta tuyến đường sắt quan trọng nhất là", opts:["Hà Nội – Lạng Sơn.","Thống Nhất.","Hà Nội – Lào Cai.","Hà Nội – Hải Phòng."], ans:"B"},
+  {q:"Hướng phát triển của ngành bưu chính nước ta hiện nay là", opts:["đẩy mạnh chuyển đổi số quốc gia.","mạng lưới vận chuyển chưa phát triển.","phân bố chủ yếu tại các thành phố.","tăng dần quy trình nghiệp vụ thủ công."], ans:"A"},
+  {q:"Mạng lưới viễn thông ở nước ta hiện nay <strong>không</strong> bao gồm", opts:["mạng truyền dẫn.","mạng phi thoại.","mạng chuyển phát.","mạng điện thoại."], ans:"C"},
+  {q:"Đặc điểm nào sau đây đúng với hoạt động nội thương của nước ta hiện nay?", opts:["Chỉ phục vụ tiêu dùng của dân cư.","Chủ yếu các trung tâm thương mại.","Phát triển mạnh ở vùng miền núi.","Có hàng hóa phong phú, đa dạng."], ans:"D"},
+  {q:"Hiện nay, hoạt động nhập khẩu của nước ta có đặc điểm nào sau đây?", opts:["Thị trường chủ yếu là Bắc Mỹ.","Cơ cấu hàng hoá ít có thay đổi.","Phụ thuộc vào kinh tế tư nhân.","Giá trị nhập khẩu tăng liên tục."], ans:"D"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng với hoạt động xuất khẩu nước ta?", opts:["Trị giá xuất khẩu có ngày càng tăng nhanh.","Nhóm hàng công nghiệp chế biến sâu tăng.","Thị trường xuất khẩu ngày càng đa dạng hơn.","Thành phần kinh tế nhà nước tham gia chính."], ans:"D"},
+  {q:"Các thị trường xuất khẩu lớn nhất của nước ta hiện nay là", opts:["Nhật Bản, Thái Lan, CHLB Đức.","Pháp, Trung Quốc, Liên bang Nga.","Hoa Kì, Nhật Bản, Trung Quốc.","Trung Quốc, Ôxtrâylia, Nhật Bản."], ans:"C"},
+  {q:"Kim ngạch xuất, nhập khẩu của nước ta liên tục tăng chủ yếu do", opts:["sự phát triển kinh tế và những đổi mới trong cơ chế quản lí.","thị trường thế giới ngày càng mở rộng và hàng hoá đa dạng.","có nhiều thành phần kinh tế tham gia và sản xuất phát triển.","tăng cường nhập khẩu tư liệu sản xuất và hàng tiêu dùng."], ans:"A"},
+  {q:"Hoạt động nội thương của nước ta có nhiều chuyển biến tích cực chủ yếu do", opts:["chính sách thay đổi, dân số tăng nhanh, thị trường rộng.","mức sống tăng, công nghệ phát triển, lao động đông đảo.","sản xuất phát triển, mức sống tăng, chính sách đổi mới.","hàng hóa đa dạng, dân số tăng, nhu cầu ngày càng lớn."], ans:"C"},
+  {q:"Tài nguyên du lịch nhân văn <strong>không</strong> bao gồm", opts:["làng nghề.","di tích lịch sử.","bãi biển.","lễ hội."], ans:"C"},
+  {q:"Sự phân hóa lãnh thổ du lịch nước ta phụ thuộc chủ yếu vào các nhân tố nào sau đây?", opts:["Vị trí địa lí và tài nguyên du lịch.","Chất lượng đội ngũ trong ngành.","Số lượng du khách đến tham quan.","Tiềm năng du lịch ở các vùng xa."], ans:"A"},
+  {q:"Số lượt khách du lịch nội địa trong các năm qua tăng nhanh do nguyên nhân chủ yếu nào sau đây?", opts:["Sản phẩm du lịch ngày càng đa dạng.","Mức sống nhân dân được nâng cao.","Cơ sở vật chất được tăng cường.","Chất lượng phục vụ tốt hơn."], ans:"B"},
+  {q:"Di sản thiên nhiên thế giới Phong Nha - Kẻ Bàng là điểm du lịch nổi tiếng của tỉnh/thành nào sau đây?", opts:["Quảng Trị.","Quảng Ninh.","Huế.","Thái Nguyên."], ans:"C"},
+  {q:"Ngành du lịch nước ta phát triển nhanh trong thời gian gần đây chủ yếu do", opts:["chính sách phát triển, nhu cầu về du lịch tăng.","có cơ sở lưu trú tốt, tài nguyên du lịch đa dạng.","thu hút vốn đầu tư, đã nâng cấp cơ sở hạ tầng.","nhu cầu du lịch tăng, có nhiều di sản thế giới."], ans:"A"},
+  // Câu 36 - biểu đồ
+  {q:"Cho biểu đồ:<br><div class='chart-container'><div class='chart-title'>BIỂU ĐỒ KẾT QUẢ KINH DOANH CỦA CÁC CƠ SỞ LỮ HÀNH<br>NGÀNH DU LỊCH NƯỚC TA GIAI ĐOẠN 2010 - 2023</div><div class='chart-legend'><div class='legend-item'><div class='legend-color' style='background:#4472c4'></div>Khách trong nước (Triệu lượt người)</div><div class='legend-item'><div class='legend-color' style='background:#ed7d31'></div>Khách quốc tế (Triệu lượt người)</div><div class='legend-item'><div class='legend-color' style='background:#a9d18e'></div>Doanh thu (Nghìn tỉ đồng)</div></div><div style='padding:0 16px 12px'><svg viewBox='0 0 500 200' style='width:100%;font-family:Be Vietnam Pro,sans-serif'><text x='10' y='20' font-size='10' fill='#666'>25</text><text x='10' y='57' font-size='10' fill='#666'>20</text><text x='10' y='94' font-size='10' fill='#666'>15</text><text x='10' y='131' font-size='10' fill='#666'>10</text><text x='10' y='168' font-size='10' fill='#666'>5</text><text x='15' y='190' font-size='10' fill='#666'>0</text><line x1='30' y1='15' x2='30' y2='185' stroke='#333' stroke-width='1.5'/><line x1='30' y1='185' x2='490' y2='185' stroke='#333' stroke-width='1.5'/><text x='460' y='12' font-size='9' fill='#e74c3c'>100</text><text x='460' y='49' font-size='9' fill='#e74c3c'>80</text><text x='460' y='86' font-size='9' fill='#e74c3c'>60</text><text x='460' y='123' font-size='9' fill='#e74c3c'>40</text><text x='460' y='160' font-size='9' fill='#e74c3c'>20</text><rect x='60' y='141' width='25' height='44' fill='#4472c4'/><text x='72' y='138' font-size='9' fill='#4472c4' text-anchor='middle'>5,4</text><rect x='88' y='179' width='25' height='6' fill='#ed7d31'/><text x='100' y='177' font-size='9' fill='#ed7d31' text-anchor='middle'>2,4</text><rect x='116' y='162' width='25' height='23' fill='#a9d18e'/><text x='128' y='160' font-size='9' fill='#555' text-anchor='middle'>15,5</text><rect x='160' y='118' width='25' height='67' fill='#4472c4'/><text x='172' y='115' font-size='9' fill='#4472c4' text-anchor='middle'>8,6</text><rect x='188' y='152' width='25' height='33' fill='#ed7d31'/><text x='200' y='149' font-size='9' fill='#ed7d31' text-anchor='middle'>2,3</text><rect x='216' y='140' width='25' height='45' fill='#a9d18e'/><text x='228' y='137' font-size='9' fill='#555' text-anchor='middle'>27,8</text><rect x='260' y='99' width='25' height='86' fill='#4472c4'/><text x='272' y='96' font-size='9' fill='#4472c4' text-anchor='middle'>11,1</text><rect x='288' y='118' width='25' height='67' fill='#ed7d31'/><text x='300' y='115' font-size='9' fill='#ed7d31' text-anchor='middle'>5,1</text><rect x='316' y='133' width='25' height='52' fill='#a9d18e'/><text x='328' y='130' font-size='9' fill='#555' text-anchor='middle'>40,4</text><rect x='360' y='112' width='25' height='73' fill='#4472c4'/><text x='372' y='109' font-size='9' fill='#4472c4' text-anchor='middle'>5,8</text><rect x='388' y='145' width='25' height='40' fill='#ed7d31'/><text x='400' y='142' font-size='9' fill='#ed7d31' text-anchor='middle'>2,5</text><rect x='416' y='159' width='25' height='26' fill='#a9d18e'/><text x='428' y='156' font-size='9' fill='#555' text-anchor='middle'>16,5</text><rect x='430' y='48' width='25' height='137' fill='#4472c4'/><text x='442' y='45' font-size='9' fill='#4472c4' text-anchor='middle'>19,1</text><rect x='452' y='145' width='0' height='0' fill='#ed7d31'/><rect x='448' y='173' width='25' height='12' fill='#ed7d31'/><text x='460' y='170' font-size='9' fill='#ed7d31' text-anchor='middle'>4,4</text><polyline points='128,160 228,137 328,130 428,156 442,43' stroke='#e74c3c' stroke-width='2' fill='none' stroke-dasharray='4'/><circle cx='128' cy='160' r='3' fill='#e74c3c'/><circle cx='228' cy='137' r='3' fill='#e74c3c'/><circle cx='328' cy='130' r='3' fill='#e74c3c'/><circle cx='428' cy='156' r='3' fill='#e74c3c'/><circle cx='442' cy='43' r='3' fill='#e74c3c'/><text x='100' y='197' font-size='10' fill='#333' text-anchor='middle'>2010</text><text x='200' y='197' font-size='10' fill='#333' text-anchor='middle'>2014</text><text x='300' y='197' font-size='10' fill='#333' text-anchor='middle'>2018</text><text x='400' y='197' font-size='10' fill='#333' text-anchor='middle'>2020</text><text x='460' y='197' font-size='10' fill='#333' text-anchor='middle'>2023</text></svg></div></div><div class='source-note' style='margin:4px 16px'>(Nguồn: Niên giám thống kê Việt Nam năm 2016, 2023, Nxb Thống kê)</div>Nhận xét nào sau đây đúng với biểu đồ trên?", opts:["Trong giai đoạn 2010 - 2023, khách trong nước tăng nhanh hơn khách quốc tế.","Trong giai đoạn 2010 - 2023, doanh thu của các cơ sở lữ hành giảm.","Trong giai đoạn 2010 - 2023, khách trong nước tăng 2,0 triệu lượt người.","Khách trong nước, khách quốc tế đều tăng ổn định qua các năm."], ans:"A"},
+  {q:"Trung du và miền núi Bắc Bộ chuyên môn hóa sản xuất cây chè chủ yếu dựa vào điều kiện nào sau đây?", opts:["Nhiều đồi núi thấp, giống cây tốt.","Địa hình phân bậc, nhiều loại đất.","Khí hậu nhiệt đới, đủ nước tưới.","Khí hậu cận nhiệt trên núi, đất."], ans:"D"},
+  {q:"Thế mạnh nông nghiệp của vùng Trung du và miền núi nước ta là", opts:["cây công nghiệp lâu năm, chăn nuôi gia cầm.","cây lương thực, chăn nuôi gia súc nhỏ.","chăn nuôi gia súc lớn, cây lương thực.","cây công nghiệp lâu năm, chăn nuôi gia súc lớn."], ans:"D"},
+  {q:"Đặc điểm nào sau đây đúng với vị trí địa lí của vùng Trung du và miền núi phía Bắc?", opts:["Phía đông nam tiếp giáp với vùng Bắc Trung Bộ và Duyên hải miền Trung.","Có vị trí giáp biển, tiếp giáp với lãnh thổ Trung Quốc và Lào.","Có đường biên giới Việt - Trung và Việt – Lào và nhiều cửa khẩu.","Tiếp giáp với 3 vùng kinh tế của nước ta và 3 quốc gia trong khu vực."], ans:"C"},
+  // Câu 40 - câu thiếu đầu
+  {q:"[Đặc điểm địa hình vùng TD-MN] phía Bắc?", opts:["Nhiều con sông có độ dốc lớn.","Nhiều sơn nguyên và cao nguyên.","Diện tích rộng lớn, nhiều núi cao.","Địa hình núi cao, phân hoá đa dạng."], ans:"A"},
+  {q:"[Phát triển kinh tế TD-MN] phía Bắc mang lại ý nghĩa xã hội chủ yếu nào sau đây?", opts:["Khai thác hiệu quả các thế mạnh và tăng trưởng kinh tế nhanh.","Khai thác có hiệu quả nguồn lao động và chuyển dịch cơ cấu kinh tế.","Đẩy mạnh tốc độ tăng trưởng và chuyển dịch cơ cấu kinh tế.","Tạo việc làm, tăng thu nhập và nâng cao chất lượng cuộc sống."], ans:"D"},
+  {q:"[Khoáng sản chủ yếu TD-MN] phía Bắc?", opts:["Dầu khí, a-pa-tit, chì – kẽm.","Than nâu, a-pa-tit, chì-kẽm.","A-pa-tit, thiếc, chì – kẽm.","Nhôm, a-pa-tit, chì — kẽm."], ans:"C"},
+  {q:"Yếu tố chủ yếu nào sau đây thúc đẩy ngành sản xuất sản phẩm điện tử, máy vi tính của vùng TD – MN phía Bắc phát triển mạnh?", opts:["Thị trường tiêu thụ rộng lớn.","Nguồn lao động đông.","Cơ sở vật chất hạ tầng tốt.","Thu hút vốn đầu tư FDI."], ans:"D"},
+  {q:"[Phát triển kinh tế TD-MN] phía Bắc mang lại ý nghĩa kinh tế chủ yếu nào sau đây?", opts:["Bảo vệ môi trường bền vững và tăng trưởng kinh tế nhanh.","Khai thác có hiệu quả nguồn lao động và chuyển dịch cơ cấu kinh tế.","Đẩy mạnh tốc độ tăng trưởng và chuyển dịch cơ cấu kinh tế.","Tạo việc làm, tăng thu nhập và nâng cao chất lượng cuộc sống."], ans:"C"},
+  {q:"Dệt, may và giày, dép trở thành ngành công nghiệp trọng điểm của Đồng bằng sông Hồng chủ yếu dựa trên thế mạnh", opts:["tài nguyên và lao động.","truyền thống sản xuất và lao động.","đầu tư nước ngoài và thị trường.","tài nguyên và thị trường."], ans:"B"},
+  {q:"Vùng Đồng bằng sông Hồng hiện nay có tỉnh/thành nào sau đây giáp biển?", opts:["Hải Phòng, Thanh Hóa, Ninh Bình, Thái Bình.","Hải Phòng, Ninh Bình, Hưng Yên, Quảng Trị.","Quảng Ninh, Hải Phòng, Ninh Bình, Hưng Yên.","Quảng Ninh, Hải Phòng, Nam Định, Ninh Bình."], ans:"D"},
+  {q:"Dân số vùng đồng bằng sông Hồng có đặc điểm nào sau đây?", opts:["Dân số ít, biến động mạnh.","Dân số đông, giảm mạnh.","Dân số ít, tăng liên tục.","Dân số đông, tăng liên tục."], ans:"D"},
+  {q:"Khí hậu nhiệt đới ẩm gió mùa có mùa đông lạnh là điều kiện thuận lợi để vùng Đồng bằng sông Hồng phát triển", opts:["vùng chuyên canh cây lúa nước.","cây ăn quả có nguồn gốc ôn đới.","đa dạng sản phẩm nông nghiệp.","chăn nuôi gia súc lớn và gia cầm."], ans:"B"},
+  {q:"Thuận lợi chủ yếu để phát triển công nghiệp ở Đồng bằng sông Hồng là", opts:["có nhiều lao động kĩ thuật, cơ sở hạ tầng khá tốt.","thị trường tiêu thụ lớn, nhiều hoạt động dịch vụ.","đô thị hóa mở rộng, kinh tế hàng hóa phát triển.","nguyên liệu dồi dào, dân cư tập trung đông đúc."], ans:"A"},
+  {q:"Thế mạnh để Đồng bằng sông Hồng phát triển kinh tế biển là", opts:["đồi núi ở phía bắc, rìa phía tây, tây nam có đất feralit chủ yếu.","đồng bằng chiếm phần lớn diện tích với đất phù sa màu mỡ.","nhiều vũng, vịnh ven biển; vùng biển có nhiều đảo, quần đảo.","các vườn quốc gia, khu dự trữ sinh quyển, sinh vật nhiệt đới."], ans:"C"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng về vị trí địa lí của Bắc Trung Bộ?", opts:["Vị trí cầu nối giữa miền Bắc và miền Nam.","Tiếp giáp với Biển Đông rộng lớn ở phía tây.","Tiếp giáp với Đồng bằng sông Hồng ở phía bắc.","Tiếp giáp với Trung du và miền núi Bắc Bộ."], ans:"B"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng về dân số Bắc Trung Bộ?", opts:["Tỉ lệ gia tăng dân số tự nhiên ở mức trung bình cả nước.","Dân cư tập trung chủ yếu ở phía Tây của vùng.","Trong vùng có nhiều dân tộc khác nhau sinh sống.","Tỉ lệ dân thành thị thấp hơn trung bình cả nước."], ans:"B"},
+  {q:"Đặc điểm tự nhiên nào sau đây là cơ sở chính cho việc hình thành cơ cấu nông nghiệp, lâm nghiệp và thuỷ sản ở Bắc Trung Bộ?", opts:["Giáp vùng biển rộng, giàu tiềm năng.","Khí hậu nhiệt đới ẩm có mùa đông lạnh.","Địa hình phân hoá từ Tây sang Đông.","Có nhiều nhóm đất và loại đất khác nhau."], ans:"C"},
+  {q:"Ngành thuỷ sản ở vùng Bắc Trung Bộ phát triển được chủ yếu do", opts:["các tỉnh giáp biển, gần các ngư trường lớn, dân cư có kinh nghiệm.","ít thiên tai, sông ngòi dày đặc, nguồn lợi sinh vật biển phong phú.","khí hậu thuận lợi, có nhiều cảng biển, dân cư nhiều kinh nghiệm.","có nhiều ngư trường, trình độ lao động cao, nguồn vốn đầu tư lớn."], ans:"A"},
+  {q:"Thuận lợi chủ yếu về điều kiện tự nhiên và tài nguyên thiên nhiên đối với phát triển nông nghiệp của Bắc Trung Bộ là", opts:["vùng đồi trước núi có đất phù sa khá màu mỡ.","nhiều hệ thống sông lớn với mạng lưới dày đặc.","đất ba-dan có diện tích lớn, phân bố tập trung.","khí hậu nhiệt đới ẩm gió mùa, có sự phân hoá."], ans:"D"},
+  {q:"Thuận lợi chủ yếu về kinh tế - xã hội đối với phát triển nông nghiệp, lâm nghiệp và thuỷ sản của Bắc Trung Bộ là", opts:["cơ sở hạ tầng đồng bộ và được hiện đại hoá.","nhiều cơ sở chế biến sản phẩm quy mô lớn.","có trình độ khoa học – công nghệ rất hiện đại.","lao động đông, có nhiều kinh nghiệm sản xuất."], ans:"D"},
+  {q:"Đặc điểm nào sau đây <strong>không</strong> đúng về hạn chế trong phát triển nông nghiệp của Bắc Trung Bộ?", opts:["Ảnh hưởng của nhiều thiên tai.","Dân cư chưa chinh phục được tự nhiên.","Cơ sở hạ tầng còn nhiều hạn chế.","Công nghiệp chế biến chưa phát triển."], ans:"B"},
+  {q:"Ngành trồng trọt của Bắc Trung Bộ có đặc điểm nào sau đây?", opts:["Lúa trồng nhiều ở Quảng Bình, Quảng Trị.","Mía được trồng chủ yếu ở đất cát ven biển.","Cao su được trồng phổ biến ở núi phía Tây.","Lúa là cây lương thực chủ yếu của vùng."], ans:"D"},
+  {q:"Ngành chăn nuôi của Bắc Trung Bộ có đặc điểm nào sau đây?", opts:["Đang phát triển theo hướng hàng hóa.","Bò sữa được nuôi phổ biến ở các tỉnh.","Số lượng đàn gia súc đứng đầu cả nước.","Gia cầm nuôi theo trang trại còn hạn chế."], ans:"A"},
+  {q:"Ý nghĩa chủ yếu của việc phát triển nông nghiệp ở Bắc Trung Bộ là", opts:["khai thác nguồn lực, tăng trưởng kinh tế, nâng cao đời sống.","thay đổi cơ cấu kinh tế, đa dạng sản phẩm, tạo hàng xuất khẩu.","thu hút đầu tư, phát huy các thế mạnh, nâng cao vị thế của vùng.","tạo ra việc làm, tăng sự phân hóa lãnh thổ, phân bố lại dân cư."], ans:"A"},
+];
+
+const part2Data = [
+  {
+    context: `Cho bảng số liệu:
+<div class='table-title'>Sản lượng dầu thô và điện của nước ta giai đoạn 2010 - 2021</div>
+<table class='data-table'><thead><tr><th>Năm</th><th>2010</th><th>2015</th><th>2021</th></tr></thead><tbody><tr><td>Dầu thô (triệu tấn)</td><td>15,0</td><td>18,7</td><td>11,4</td></tr><tr><td>Điện (tỉ kWh)</td><td>91,7</td><td>157,9</td><td>231,0</td></tr></tbody></table>
+<div class='source-note'>(Nguồn: Niên giám thống kê Việt Nam năm 2021, NXB Thống kê, 2022)</div>`,
+    subs:[
+      {label:"a", text:"Sản lượng dầu thô giảm liên tục.", ans:"S"},
+      {label:"b", text:"Sản lượng dầu thô và điện đều cao nhất vào năm 2021.", ans:"S"},
+      {label:"c", text:"Năm 2015 sản lượng điện gấp 1,5 lần năm 2010.", ans:"S"},
+      {label:"d", text:"Biểu đồ kết hợp là dạng biểu đồ thích hợp nhất thể hiện sản lượng dầu thô và điện của nước ta giai đoạn 2010 - 2021.", ans:"D"},
+    ]
+  },
+  {
+    context:`Cho thông tin sau:
+<div class='info-text'>Dịch vụ là những hoạt động mang tính xã hội tạo ra các sản phẩm nhằm thỏa mãn các nhu cầu sản xuất và đời sống của con người nên có cơ cấu ngành đa dạng và phức tạp. Việc phân chia các ngành dịch vụ hiện nay dựa vào các hoạt động dịch vụ diễn ra trong thực tế với ba nhóm: dịch vụ kinh doanh, dịch vụ tiêu dùng và dịch vụ công. Ở nước ta, dịch vụ chiếm tỉ trọng cao trong cơ cấu kinh tế và phát triển ngày càng đa dạng.</div>`,
+    subs:[
+      {label:"a", text:"Dịch vụ góp phần quan trọng trong thực hiện sự nghiệp công nghiệp hóa - hiện đại hóa đất nước.", ans:"D"},
+      {label:"b", text:"Kinh tế càng phát triển, xã hội càng tiến bộ văn minh thì càng xuất hiện nhiều ngành dịch vụ mới.", ans:"D"},
+      {label:"c", text:"Quy mô dân số đông, lực lượng lao động tăng cả về số lượng và chất lượng tạo nên thách thức lớn cho sự phát triển dịch vụ của nước ta.", ans:"S"},
+      {label:"d", text:"Hệ thống chính sách cùng sự phát triển mạnh mẽ khoa học - công nghệ tạo nên sự đa dạng về cơ cấu ngành dịch vụ nước ta.", ans:"D"},
+    ]
+  },
+  {
+    context:`Cho thông tin sau:
+<div class='info-text'>Vùng Trung du và miền núi Bắc Bộ đang đẩy mạnh phát triển trồng cây công nghiệp, cây ăn quả, cây dược liệu và rau các loại. Chè là cây công nghiệp quan trọng nhất của vùng, chiếm khoảng 80% diện tích trồng chè cả nước (2023). Các loại cây dược liệu như hồi, quế, sa nhân, tam thất, … có diện tích ngày càng tăng. Cây ăn quả như cam, bưởi, nhãn, vải, mận, đào, lê, … ngày càng phát triển.<br>Diện tích trồng rau các loại như su hào, cải bắp, súp lơ, cải thảo … có xu hướng mở rộng.</div>`,
+    subs:[
+      {label:"a", text:"Trung du và miền núi Bắc Bộ là vùng có diện tích trồng cây chè lớn nhất cả nước.", ans:"D"},
+      {label:"b", text:"Các loại cây ăn quả của vùng như mận, đào, lê, … là các loại cây trồng có nguồn gốc nhiệt đới.", ans:"S"},
+      {label:"c", text:"Vùng có ngành trồng trọt ngày càng phát triển với cơ cấu sản phẩm đa dạng chủ yếu do diện tích đất rộng, nguồn lao động dồi dào và có kinh nghiệm sản xuất phong phú.", ans:"S"},
+      {label:"d", text:"Diện tích trồng rau các loại của vùng ngày càng phát triển do đẩy mạnh sản xuất nông nghiệp hàng hóa hiệu quả cao, giao thông vận tải được đầu tư nâng cấp.", ans:"D"},
+    ]
+  },
+  {
+    context:`Cho bảng số liệu:
+<div class='table-title'>Số lượng trâu của vùng Trung du miền núi Bắc Bộ và cả nước giai đoạn 2018 - 2021</div>
+<div class='table-note'>(Đơn vị: Nghìn con)</div>
+<table class='data-table'><thead><tr><th>Năm</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th></tr></thead><tbody><tr><td>Trung du và miền núi phía Bắc</td><td>1391,2</td><td>1332,4</td><td>1268,9</td><td>1212,3</td></tr><tr><td>Cả nước</td><td>2486,9</td><td>2388,8</td><td>2330,2</td><td>2272,3</td></tr></tbody></table>`,
+    subs:[
+      {label:"a", text:"Đàn trâu của cả nước có xu hướng tăng liên tục.", ans:"S"},
+      {label:"b", text:"Đàn trâu của Trung du và miền núi phía Bắc chiếm tỉ lệ cao trong cả nước.", ans:"D"},
+      {label:"c", text:"Trung du và miền núi phía Bắc nuôi nhiều trâu vì phù hợp với điều kiện khí hậu.", ans:"D"},
+      {label:"d", text:"Giải pháp chủ yếu phát triển nuôi trâu theo hướng sản xuất hàng hóa là phát triển vùng chăn nuôi tập trung, tăng cường ứng dụng khoa học công nghệ trong chăn nuôi.", ans:"D"},
+    ]
+  },
+  {
+    context:`Cho thông tin sau:
+<div class='info-text'>Đồng bằng sông Hồng có vùng biển rộng lớn giàu tiềm năng phát triển kinh tế, lại có cửa khẩu thông thương với Trung Quốc. Đây là vùng có diện tích nhỏ nhưng mật độ dân số cao nhất cả nước. Điều kiện tự nhiên và tài nguyên thiên nhiên của vùng rất đa dạng như: Địa hình bằng phẳng, đất phù sa màu mỡ, nền nhiệt ẩm dồi dào. Đặc biệt trong năm có một mùa đông lạnh. Sông ngòi của Đồng bằng sông Hồng có giá trị nhiều mặt, tài nguyên khoáng sản quan trọng nhất là than.</div>`,
+    subs:[
+      {label:"a", text:"Đồng bằng sông Hồng là vùng có quy mô dân số khá nhỏ.", ans:"S"},
+      {label:"b", text:"Vị trí địa lí của vùng ít thuận lợi cho phát triển giao thông vận tải.", ans:"S"},
+      {label:"c", text:"Đồng bằng sông Hồng có thế mạnh để phát triển du lịch biển, nuôi trồng và khai thác thủy sản và cả giao thông vận tải biển.", ans:"D"},
+      {label:"d", text:"Đồng bằng sông Hồng thuận lợi để phát triển nông nghiệp nhiệt đới và trồng cây ưa lạnh trong vụ đông.", ans:"D"},
+    ]
+  },
+  {
+    context:`Cho thông tin sau:
+<div class='info-text'>Bắc Trung Bộ có bờ biển dài khoảng 670km với 23 cửa sông, rừng ngập mặn, các bãi tắm, các vịnh biển…nổi tiếng với hệ sinh thái biển đa dạng, độc đáo và hấp dẫn, là những điểm lý tưởng để phát triển du lịch sinh thái biển. Theo số liệu thống kê, lượng khách du lịch đến vùng Bắc Trung Bộ năm 2023 đạt 33,46 triệu lượt, (chiếm 27,6% tổng lượt khách cả nước), trong đó cao nhất là Thanh Hoá với 12,1 triệu lượt. Tuy nhiên, Bắc Trung Bộ hoạt động phát triển du lịch còn chưa tương xứng với tiềm năng và đang đối diện với nhiều khó khăn, thách thức.</div>`,
+    subs:[
+      {label:"a", text:"Địa hình bờ biển là điều kiện thuận lợi để vùng phát triển du lịch biển và nghiên cứu hệ sinh thái.", ans:"D"},
+      {label:"b", text:"Tổng lượng khách du lịch đến vùng Bắc Trung Bộ năm 2023 chiếm hơn 1/3 tổng lượt khách của cả nước.", ans:"S"},
+      {label:"c", text:"Thời tiết thất thường và thiên tai (như bão, gió phơn Tây Nam) là một trong những khó khăn tự nhiên lớn nhất làm giảm tính thời vụ trong hoạt động du lịch của vùng.", ans:"S"},
+      {label:"d", text:"Sự hình thành các tour du lịch liên kết như Con đường di sản miền Trung…là chiến lược quan trọng để khắc phục hạn chế về sự đơn điệu của sản phẩm du lịch tại Bắc Trung Bộ.", ans:"D"},
+    ]
+  },
+];
+
+const part3Data = [
+  {q:"Năm 2021, nước ta có trị giá xuất khẩu là 336,1 tỉ USD và trị giá nhập khẩu là 332,9 tỉ USD. Tính cán cân xuất nhập khẩu của nước ta (làm tròn kết quả đến một chữ số thập phân của tỉ USD).", ans:"3,2", unit:"tỉ USD"},
+  {q:"Năm 2021, Đồng bằng sông Hồng có diện tích lúa là 970,3 nghìn ha, sản lượng lúa là 6020,4 nghìn tấn. Năng suất lúa của đồng bằng sông Hồng năm 2021 là bao nhiêu tạ/ha? (làm tròn kết quả đến hàng đơn vị).", ans:"62", unit:"tạ/ha"},
+  {q:"Năm 2022, khối lượng vận tải hàng hoá của loại hình giao thông đường biển nước ta là 89307,46 nghìn tấn, khối lượng luân chuyển hàng hoá của loại hình giao thông đường biển nước ta là 191249,27 triệu tấn.km. Cho biết cự li vận chuyển trung bình của loại hình vận tải này là bao nhiêu km? (làm tròn kết quả đến hàng đơn vị).", ans:"2141", unit:"km"},
+  {q:`Cho bảng số liệu:
+<div class='table-title'>Khối lượng vận chuyển hàng hóa và cự li vận chuyển trung bình của một số ngành vận tải nước ta năm 2023</div>
+<table class='data-table'><thead><tr><th>Tiêu chí</th><th>Đường sắt</th><th>Đường hàng không</th></tr></thead><tbody><tr><td>Khối lượng vận chuyển (nghìn tấn)</td><td>4639</td><td>1</td></tr><tr><td>Cự li vận chuyển trung bình (km)</td><td>801</td><td>1050</td></tr></tbody></table>
+<div class='source-note'>(Nguồn: https://www.gso.gov.vn)</div>
+Căn cứ vào bảng số liệu trên, hãy cho biết khối lượng luân chuyển hàng hoá của đường hàng không và đường sắt nước ta năm 2023 chênh lệch bao nhiêu triệu tấn.km (làm tròn kết quả đến hàng đơn vị).`, ans:"4623", unit:"triệu tấn.km"},
+  {q:`Cho bảng số liệu:
+<div class='table-title'>Sản lượng thủy sản Bắc Trung Bộ năm 2010 và 2021</div>
+<div class='table-note'>Đơn vị: Nghìn tấn</div>
+<table class='data-table'><thead><tr><th>Sản lượng</th><th>2010</th><th>2021</th></tr></thead><tbody><tr><td>Thủy sản khai thác</td><td>240,9</td><td>373,5</td></tr><tr><td>Thủy sản nuôi trồng</td><td>97,1</td><td>119,6</td></tr></tbody></table>
+<div class='source-note'>Nguồn: niên giám thống kê các năm 2022</div>
+Hãy cho biết năm 2021 so với năm 2010, tỉ trọng sản lượng nuôi trồng của thủy sản Bắc Trung Bộ giảm xuống bao nhiêu %? (làm tròn kết quả đến một chữ số thập phân).`, ans:"2,3", unit:"%"},
+  {q:"Năm 2022, số thuê bao điện thoại của nước ta là 128 926,4 nghìn thuê bao, số dân là 99,5 triệu người. Hãy cho biết số thuê bao điện thoại bình quân đầu người của nước ta là bao nhiêu thuê bao/người (làm tròn kết quả đến một chữ số thập phân).", ans:"1,3", unit:"thuê bao/người"},
+];
+
+// ===================== STATE =====================
+let part1Order = [];
+let submitted = false;
+let timerInterval;
+let secondsLeft = 2181818160;
+
+// ===================== INIT =====================
+function init(){
+  submitted = false;
+  secondsLeft = 2181818160;
+  document.getElementById('exam-body').classList.remove('hidden');
+  document.getElementById('result-area').classList.add('hidden');
+  
+  // shuffle part1
+  part1Order = [...Array(part1Data.length).keys()];
+  shuffle(part1Order);
+  
+  renderPart1();
+  renderPart2();
+  renderPart3();
+  startTimer();
+  updateProgress();
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ===================== RENDER PART 1 =====================
+function renderPart1(){
+  const container = document.getElementById('part1-questions');
+  container.innerHTML = '';
+  part1Order.forEach((origIdx, displayIdx) => {
+    const q = part1Data[origIdx];
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.id = `p1-block-${origIdx}`;
+    
+    // shuffle options
+    const optOrder = [0,1,2,3];
+    shuffle(optOrder);
+    const labels = ['A','B','C','D'];
+    
+    let optsHtml = '';
+    optOrder.forEach((oi,li) => {
+      optsHtml += `<div class="option" id="p1-opt-${origIdx}-${oi}" onclick="selectP1(${origIdx},${oi},this)">
+        <span class="opt-label">${labels[li]}.</span>
+        <span>${q.opts[oi]}</span>
+      </div>`;
+    });
+    
+    block.innerHTML = `<div class="q-number">Câu ${displayIdx+1}.</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="p1-opts-${origIdx}">${optsHtml}</div>`;
+    container.appendChild(block);
+  });
+}
+
+function selectP1(qIdx, optIdx, el){
+  if(submitted) return;
+  const opts = document.getElementById(`p1-opts-${qIdx}`).querySelectorAll('.option');
+  opts.forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  el.dataset.chosen = optIdx;
+  // store answer
+  document.getElementById(`p1-opts-${qIdx}`).dataset.chosen = optIdx;
+  updateProgress();
+}
+
+// ===================== RENDER PART 2 =====================
+function renderPart2(){
+  const container = document.getElementById('part2-questions');
+  container.innerHTML = '';
+  part2Data.forEach((q,qi) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.id = `p2-block-${qi}`;
+    
+    let subsHtml = '';
+    q.subs.forEach((sub,si) => {
+      subsHtml += `<div class="tf-sub"><strong>${sub.label})</strong> ${sub.text}
+        <div class="tf-btn" id="p2-tf-${qi}-${si}">
+          <button onclick="selectTF(${qi},${si},'D',this)">Đúng</button>
+          <button onclick="selectTF(${qi},${si},'S',this)">Sai</button>
+        </div>
+      </div>`;
+    });
+    
+    block.innerHTML = `<div class="q-number">Câu ${qi+1}.</div>
+      <div class="q-text">${q.context}</div>
+      ${subsHtml}`;
+    container.appendChild(block);
+  });
+}
+
+function selectTF(qi,si,val,btn){
+  if(submitted) return;
+  const wrap = document.getElementById(`p2-tf-${qi}-${si}`);
+  wrap.querySelectorAll('button').forEach(b=>{b.classList.remove('sel-true','sel-false')});
+  if(val==='D') btn.classList.add('sel-true');
+  else btn.classList.add('sel-false');
+  wrap.dataset.chosen = val;
+  updateProgress();
+}
+
+// ===================== RENDER PART 3 =====================
+function renderPart3(){
+  const container = document.getElementById('part3-questions');
+  container.innerHTML = '';
+  part3Data.forEach((q,qi) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.innerHTML = `<div class="q-number">Câu ${qi+1}.</div>
+      <div class="q-text">${q.q}</div>
+      <div class="short-ans">
+        <input type="text" id="p3-ans-${qi}" placeholder="Nhập đáp án... (${q.unit})" oninput="updateProgress()">
+      </div>`;
+    container.appendChild(block);
+  });
+}
+
+// ===================== PROGRESS =====================
+function updateProgress(){
+  let answered = 0;
+  const total = part1Data.length + part2Data.reduce((a,q)=>a+q.subs.length,0) + part3Data.length;
+  
+  // part1
+  part1Order.forEach(idx => {
+    if(document.getElementById(`p1-opts-${idx}`) && document.getElementById(`p1-opts-${idx}`).dataset.chosen !== undefined) answered++;
+  });
+  // part2
+  part2Data.forEach((q,qi) => {
+    q.subs.forEach((_,si) => {
+      const wrap = document.getElementById(`p2-tf-${qi}-${si}`);
+      if(wrap && wrap.dataset.chosen) answered++;
+    });
+  });
+  // part3
+  part3Data.forEach((_,qi) => {
+    const inp = document.getElementById(`p3-ans-${qi}`);
+    if(inp && inp.value.trim()) answered++;
+  });
+  
+  document.getElementById('progress-text').textContent = `Đã trả lời: ${answered} / ${total} câu`;
+  document.getElementById('progress-fill').style.width = (answered/total*100)+'%';
+}
+
+// ===================== TIMER =====================
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    secondsLeft--;
+    updateTimerDisplay();
+    if(secondsLeft<=0){clearInterval(timerInterval);submitExam();}
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m = Math.floor(secondsLeft/60);
+  const s = secondsLeft%60;
+  const el = document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.className='';
+  if(secondsLeft<=300) el.className='danger';
+  else if(secondsLeft<=600) el.className='warning';
+}
+
+// ===================== SUBMIT =====================
+function submitExam(){
+  if(submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  
+  // --- Score Part 1: each correct = 0.1 điểm (60 câu = 6 điểm) ---
+  let p1Correct=0, p1Wrong=0, p1Skip=0;
+  const p1Max = part1Data.length; // 60
+  
+  // --- Score Part 2: each sub = 0.1 điểm -> 6 câu x 4 = 24 sub -> nhưng tổng phải là 3 điểm, tùy tỉ lệ. Theo đề: phần II. ---
+  // Tính điểm: phần I (60 câu MCQ) = 6đ, phần II (6 câu x 4 ý) = 3đ, phần III (6 câu) = 1đ -> tổng 10đ
+  // P1: 0.1đ/câu, P2: 0.5đ/4ý = mỗi ý đúng 0.125đ, P3: 1/6đ/câu
+  
+  let p2Score = 0;
+  let p2Correct=0, p2Wrong=0, p2Skip=0;
+  let p3Score = 0;
+  let p3Correct=0, p3Wrong=0, p3Skip=0;
+  
+  // ---- REVIEW HTML ----
+  let reviewHtml = '<div style="padding:12px 16px"><h3 style="margin-bottom:12px;color:var(--blue)">📝 PHẦN I — Trắc nghiệm nhiều lựa chọn</h3>';
+  
+  part1Order.forEach((origIdx, displayIdx) => {
+    const q = part1Data[origIdx];
+    const optsEl = document.getElementById(`p1-opts-${origIdx}`);
+    const chosenIdx = optsEl.dataset.chosen !== undefined ? parseInt(optsEl.dataset.chosen) : null;
+    
+    // find correct option index
+    const ansLabel = q.ans; // A,B,C,D
+    const ansIdx = ['A','B','C','D'].indexOf(ansLabel);
+    
+    // mark options
+    const opts = optsEl.querySelectorAll('.option');
+    opts.forEach(opt => {
+      const oi = getOptIndex(opt);
+      if(oi === ansIdx) opt.classList.add(chosenIdx===ansIdx?'correct':'show-correct');
+      else if(oi === chosenIdx) opt.classList.add('wrong');
+    });
+    
+    let status;
+    if(chosenIdx===null){p1Skip++;status='skip';}
+    else if(chosenIdx===ansIdx){p1Correct++;status='correct';}
+    else{p1Wrong++;status='wrong';}
+    
+    const badge = status==='correct'?'<span class="review-badge badge-correct">✓ Đúng</span>':
+                  status==='wrong'?'<span class="review-badge badge-wrong">✗ Sai</span>':
+                  '<span class="review-badge badge-skip">— Bỏ qua</span>';
+    
+    if(status!=='correct'){
+      const correctOptText = q.opts[ansIdx];
+      reviewHtml += `<div style="padding:8px 0;border-bottom:1px solid #f0f0f0">
+        <div style="font-size:13px"><span style="color:var(--red);font-weight:700">Câu ${displayIdx+1}.</span> ${badge}</div>
+        <div style="font-size:12px;margin-top:4px">Đáp án đúng: <strong>${q.ans}. ${correctOptText}</strong></div>
+      </div>`;
+    }
+  });
+  
+  p1Wrong = p1Max - p1Correct - p1Skip;
+  const p1Score = p1Correct * 0.1;
+  
+  reviewHtml += `<div style="margin:12px 0;font-weight:700;color:var(--blue)">Phần I: ${p1Correct}/${p1Max} đúng → ${p1Score.toFixed(1)} điểm</div>`;
+  reviewHtml += '</div>';
+  
+  // Part 2 review
+  reviewHtml += '<div style="padding:12px 16px;border-top:3px solid var(--red)"><h3 style="margin-bottom:12px;color:var(--red)">✅ PHẦN II — Trắc nghiệm đúng sai</h3>';
+  
+  part2Data.forEach((q,qi) => {
+    let qCorrect = 0;
+    reviewHtml += `<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:700;margin-bottom:4px">Câu ${qi+1}:</div>`;
+    q.subs.forEach((sub,si) => {
+      const wrap = document.getElementById(`p2-tf-${qi}-${si}`);
+      const chosen = wrap.dataset.chosen || null;
+      const correct = sub.ans;
+      
+      const btns = wrap.querySelectorAll('button');
+      btns.forEach(b=>{
+        if(b.textContent==='Đúng'){
+          if(correct==='D') b.classList.add('correct-true');
+          else if(chosen==='D') b.classList.add('wrong-true');
+        } else {
+          if(correct==='S') b.classList.add('correct-true');
+          else if(chosen==='S') b.classList.add('wrong-true');
+        }
+      });
+      
+      const isCorrect = chosen===correct;
+      const isSkip = !chosen;
+      if(isCorrect){p2Correct++;qCorrect++;}
+      else if(isSkip) p2Skip++;
+      else p2Wrong++;
+      
+      const badge2 = isCorrect?'<span class="review-badge badge-correct">✓</span>':
+                     isSkip?'<span class="review-badge badge-skip">—</span>':
+                     '<span class="review-badge badge-wrong">✗</span>';
+      reviewHtml += `<div style="font-size:12px;padding:2px 0">${badge2} <strong>${sub.label})</strong> ${sub.text} → Đáp án: <strong>${correct==='D'?'Đúng':'Sai'}</strong></div>`;
+    });
+    const subScore = qCorrect * 0.125;
+    p2Score += subScore;
+    reviewHtml += `<div style="font-size:12px;color:var(--blue);margin-top:4px">→ ${qCorrect}/4 đúng = ${subScore.toFixed(3)} điểm</div></div>`;
+  });
+  
+  reviewHtml += `<div style="font-weight:700;color:var(--red)">Phần II: ${p2Correct}/24 đúng → ${p2Score.toFixed(2)} điểm</div></div>`;
+  
+  // Part 3 review
+  reviewHtml += '<div style="padding:12px 16px;border-top:3px solid #155724"><h3 style="margin-bottom:12px;color:#155724">🔢 PHẦN III — Trả lời ngắn</h3>';
+  
+  part3Data.forEach((q,qi) => {
+    const inp = document.getElementById(`p3-ans-${qi}`);
+    const val = inp ? inp.value.trim() : '';
+    const correct = q.ans;
+    const isCorrect = val.replace(',','.') === correct.replace(',','.');
+    const isSkip = !val;
+    
+    if(isCorrect){p3Correct++;p3Score+=1/6;}
+    else if(isSkip) p3Skip++;
+    else p3Wrong++;
+    
+    if(inp){
+      inp.classList.add(isCorrect?'correct':isSkip?'':'wrong');
+      inp.disabled = true;
+    }
+    
+    const badge3 = isCorrect?'<span class="review-badge badge-correct">✓ Đúng</span>':
+                   isSkip?'<span class="review-badge badge-skip">— Bỏ qua</span>':
+                   '<span class="review-badge badge-wrong">✗ Sai</span>';
+    reviewHtml += `<div style="padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
+      <strong>Câu ${qi+1}</strong> ${badge3} — Đáp án đúng: <strong>${correct} ${q.unit}</strong>${val&&!isCorrect?' (Bạn trả lời: '+val+')':''}
+    </div>`;
+  });
+  
+  reviewHtml += `<div style="font-weight:700;color:#155724;margin-top:8px">Phần III: ${p3Correct}/6 đúng → ${(p3Score).toFixed(2)} điểm</div></div>`;
+  
+  // TOTAL
+  const totalScore = p1Score + p2Score + p3Score;
+  const totalCorrect = p1Correct + p2Correct + p3Correct;
+  const totalWrong = p1Wrong + p2Wrong + p3Wrong;
+  const totalSkip = p1Skip + p2Skip + p3Skip;
+  
+  document.getElementById('result-score').textContent = totalScore.toFixed(1);
+  document.getElementById('rb-correct').textContent = totalCorrect;
+  document.getElementById('rb-wrong').textContent = totalWrong;
+  document.getElementById('rb-skip').textContent = totalSkip;
+  document.getElementById('review-area').innerHTML = reviewHtml;
+  
+  document.getElementById('exam-body').classList.add('hidden');
+  document.getElementById('result-area').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function getOptIndex(optEl){
+  const id = optEl.id; // p1-opt-{qIdx}-{optIdx}
+  const parts = id.split('-');
+  return parseInt(parts[parts.length-1]);
+}
+
+function retryExam(){
+  document.querySelectorAll('input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');i.disabled=false;});
+  init();
+  window.scrollTo(0,0);
+}
+
+// ===================== START =====================
+window.onload = init;
+</script>
+</body>
+</html>
+
